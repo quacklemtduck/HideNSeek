@@ -1,6 +1,6 @@
 ## Interface: 90005
 ## Title: Hide N Seek
-## Version: 0.0.1
+## Version: 1.0.0
 ## Notes: Hide and Seek addon made for Kakio.
 ## Author: QuacklemtDuck
 
