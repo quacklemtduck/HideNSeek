@@ -65,6 +65,7 @@ local textinuse = {}
 function HnS_addTarget()
     local name, realm = UnitName("target");
     if(name == nil) then
+        print("No target");
         return;
     end
 
@@ -81,7 +82,6 @@ end
 function HnS_findTarget()
     local name, realm = UnitName("target");
     if(name == nil) then
-        print("No target");
         return;
     end
     if(realm ~= nil) then
@@ -105,7 +105,7 @@ function HnS_updateText()
     HnS_clearText();
     for i,n in ipairs(HnS_Players) do
         local f = HnS_getframe();
-        tinsert(textinuse, f);
+        table.insert(textinuse, f);
         f:SetText(n.name);
         if(n.found == true)then
             f:SetTextColor(0,1,0);
