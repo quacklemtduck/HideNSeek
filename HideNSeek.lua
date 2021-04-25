@@ -131,6 +131,7 @@ end
 SLASH_HNS1 = '/hns'
 SlashCmdList['HNS'] = function()
     UI:SetShown(true);
+    HnS_updateText();
 end
 
 
