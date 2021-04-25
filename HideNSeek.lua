@@ -7,7 +7,7 @@ UI:RegisterForDrag("LeftButton");
 UI:SetScript("OnDragStart", UI.StartMoving);
 UI:SetScript("OnDragStop", UI.StopMovingOrSizing);
 HnS_WIDTH = 270;
-HnS_HEIGHT = 100;
+HnS_HEIGHT = 120;
 UI:SetSize(HnS_WIDTH, HnS_HEIGHT);
 UI.Title:SetText("Hide N Seek");
 UI:SetShown(false);
@@ -56,9 +56,17 @@ resetButton:SetScript("OnClick", function ()
 end
 );
 
+statsButton = CreateFrame("Button", "statsButton", UI, "UIPanelButtonTemplate");
+statsButton:SetText("Stats");
+statsButton:SetWidth(statsButton:GetTextWidth() + 20);
+statsButton:SetPoint("TOPRIGHT", UI, "TOPRIGHT", -10, -30);
 
+foundCounter = UI:CreateFontString("addPlayer", UI, "GameFontNormal");
+foundCounter:SetPoint("TOP", 0, -60);
+foundCounter:SetText("Found: 0/0")
 
 HnS_Players = {}
+HnS_found = 0;
 local textpool = {}
 local textinuse = {}
 
@@ -103,20 +111,23 @@ end
 
 function HnS_updateText()
     HnS_clearText();
+    HnS_found = 0;
     for i,n in ipairs(HnS_Players) do
         local f = HnS_getframe();
         table.insert(textinuse, f);
         f:SetText(n.name);
         if(n.found == true)then
             f:SetTextColor(0,1,0);
+            HnS_found = HnS_found + 1;
         else
             f:SetTextColor(1,1,1);
         end
 
-        f:SetPoint("TOPLEFT", 15, i * -20 - 40)
+        f:SetPoint("TOPLEFT", 15, i * -20 - 60)
         f:Show()
     end
-    UI:SetHeight(HnS_HEIGHT + table.getn(textinuse) * 20)
+    foundCounter:SetText("Found: " .. tostring(HnS_found) .. "/" .. tostring(table.getn(HnS_Players)));
+    UI:SetHeight(HnS_HEIGHT + table.getn(textinuse) * 20);
 end
 
 function HnS_clearText()
