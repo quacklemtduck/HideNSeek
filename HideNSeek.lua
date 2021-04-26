@@ -21,6 +21,22 @@ UI:SetScript('OnEvent', function(self, event, arg1, arg2, ...)
     end
 end
 );
+local exportParent = CreateFrame("Frame", "HnS_export", UIParent, "UIPanelDialogTemplate")
+exportParent:SetPoint("CENTER", UIParent);
+exportParent:SetSize(320,320);
+exportParent:EnableMouse(true)
+exportParent.Title:SetText("Export")
+local exportFrame = CreateFrame("ScrollFrame", "MyMultiLineEditBox", 
+exportParent, "InputScrollFrameTemplate")
+exportFrame:SetPoint("TOPLEFT", exportParent, 10, -30)
+exportFrame:SetPoint("BOTTOMRIGHT", exportParent, -10, 10)
+exportFrame.EditBox:SetFontObject("ChatFontNormal")
+exportFrame.EditBox:SetText("Test")
+exportFrame.CharCount:Hide()
+local editboxParent = exportFrame.EditBox:GetParent();
+exportFrame.EditBox:SetWidth(280)
+exportParent:SetShown(false);
+
 
 HnS_playing = false;
 
@@ -77,6 +93,16 @@ exportButton = CreateFrame("Button", "exportButton", UI, "UIPanelButtonTemplate"
 exportButton:SetText("Export");
 exportButton:SetWidth(exportButton:GetTextWidth() + 20);
 exportButton:SetPoint("TOPRIGHT", UI, "TOPRIGHT", -10, -30);
+exportButton:SetScript("OnClick", function ()
+    exportParent:Show();
+    local exportString = "";
+    for i,n in ipairs(HnS_Players) do
+        exportString = exportString .. n.name .. "," .. tostring(n.count) .. "\n";
+    end
+    exportFrame.EditBox:SetText(exportString)
+    exportFrame.EditBox:SetFocus();
+    exportFrame.EditBox:HighlightText();
+end);
 
 foundCounter = UI:CreateFontString("addPlayer", UI, "GameFontNormal");
 foundCounter:SetPoint("TOP", 0, -60);
